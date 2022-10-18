@@ -56,6 +56,7 @@ jobs:
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
             echo "[INFO] PASSED pre-check. Using build automatically"
             echo "[INFO] PASSED pre-check. Using build automatically"
+            exit 0
           else
             echo "[ERR] You are not allowed to run pipeline"
             echo "[ERR] Your action has been reported to your admin"
@@ -70,6 +71,7 @@ jobs:
             echo "CURRENT_ENV=prod" >> "$GITHUB_ENV"
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
             echo "[INFO] PASSED pre-check. Using build automatically"
+            exit 0
           else
             echo "[ERR] You are not allowed to run pipeline"
             echo "[ERR] Your action has been reported to your admin"
