@@ -75,7 +75,7 @@ jobs:
           else
             echo "[ERR] You are not allowed to run pipeline"
             echo "[ERR] Your action has been reported to your admin"
-            exit 1
+            exit 0
           fi
 
       # - name: Pre-check step and set env
