@@ -32,7 +32,6 @@ jobs:
       #   run: |
       #     echo "Tag is a match"
       - name: Pre-check step and set env
-        id: get_current_env
         run: echo "${GITHUB_REF#refs/tags/}, test ${GITHUB_REF}"
       - name: Pre-check step and set env
         id: get_current_env
@@ -60,3 +59,14 @@ jobs:
             exit 1
           fi
 
+      - name: Get Tag Name
+        id: tag_name
+        run: |
+          echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+
+      - name: Build the Docker image
+        run: |
+          echo "$VERSION"
+        shell: bash
+        env:
+          VERSION: ${{ steps.tag_name.outputs.SOURCE_TAG }}
