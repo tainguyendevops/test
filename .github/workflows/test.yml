@@ -39,31 +39,43 @@ jobs:
       - name: Pre-check step and set env
         run: echo "${GITHUB_REF#refs/tags/}, test ${GITHUB_REF}"
 
-      - name: Pre-check step and set env dev
-        id: get_current_env_dev
-        if: ${{ github.event.ref == 'refs/heads/develop' }}
-        run: |
-          echo "CURRENT_ENV=dev" >> "$GITHUB_ENV"
-          echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
-          echo "[INFO] PASSED pre-check. Using build automatically"
+      # - name: Pre-check step and set env dev
+      #   id: get_current_env_dev
+      #   if: ${{ github.event.ref == 'refs/heads/develop' }}
+      #   run: |
+      #     echo "CURRENT_ENV=dev" >> "$GITHUB_ENV"
+      #     echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+      #     echo "[INFO] PASSED pre-check. Using build automatically"
 
       - name: Pre-check step and set env stg
         id: get_current_env_stg
         if: ${{ github.event.ref == 'refs/heads/main' }}
         run: |
-          echo "CURRENT_ENV=stg" >> "$GITHUB_ENV"
-          echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
-          echo "[INFO] PASSED pre-check. Using build automatically"
-
+          if [[ ${{ github.event.ref }} == 'refs/heads/main' ]]; then
+            echo "CURRENT_ENV=stg" >> "$GITHUB_ENV"
+            echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+            echo "[INFO] PASSED pre-check. Using build automatically"
+            echo "[INFO] PASSED pre-check. Using build automatically"
+          else
+            echo "[ERR] You are not allowed to run pipeline"
+            echo "[ERR] Your action has been reported to your admin"
+            exit 1
+          fi    
       - name: Pre-check step and set env prod
         id: get_current_env_prod
-        if: ${{ github.event.ref =~ 'refs/tags/v[0-9]+\.[0-9]+\.[0-9]+(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$' }}
+        if: ${{ github.event.ref == 'refs/tags/v' }}
         run: |
-          "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
-          echo "VERSION $VERSION"
-          echo "CURRENT_ENV=prod" >> "$GITHUB_ENV"
-          echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
-          echo "[INFO] PASSED pre-check. Using build automatically"
+          if [[ ${{ github.event.ref }} =~ =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$ ]]; then
+            "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
+            echo "VERSION $VERSION"
+            echo "CURRENT_ENV=prod" >> "$GITHUB_ENV"
+            echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+            echo "[INFO] PASSED pre-check. Using build automatically"
+          else
+            echo "[ERR] You are not allowed to run pipeline"
+            echo "[ERR] Your action has been reported to your admin"
+            exit 1
+          fi          
 
       # - name: Pre-check step and set env
       #   id: get_current_env
@@ -90,24 +102,6 @@ jobs:
       #       echo "[ERR] Your action has been reported to your admin"
       #       exit 1
       #     fi
-
-      # - name: Configuration for main branch
-      #   if: ${{ github.ref == 'refs/heads/main' }}
-      #   run: |
-      #       echo "CURRENT_ENV=dev" >> "$GITHUB_ENV"
-      #       echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
-      #       echo "[INFO] PASSED pre-check. Using build automatically"
-      #       exit 0
-      # - name: Configuration for beta branch
-      #   if: ${{ github.ref == 'refs/heads/beta' }}
-      #   run: |
-      #     echo "GCP_WIP=${{ secrets.BETA_WIP }}" >> $GITHUB_ENV
-      #     echo "GCP_SA=${{ secrets.BETA_SA }}" >> $GITHUB_ENV
-      # - name: Configuration for beta branch
-      #   if: ${{ github.ref == 'refs/heads/dev' }}
-      #   run: |
-      #     echo "GCP_WIP=${{ secrets.DEV_WIP }}" >> $GITHUB_ENV
-      #     echo "GCP_SA=${{ secrets.DEV_SA }}" >> $GITHUB_ENV
 
       - name: Get Tag Name
         id: tag_name
