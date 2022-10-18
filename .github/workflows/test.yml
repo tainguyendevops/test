@@ -36,12 +36,12 @@ jobs:
       - name: Pre-check step and set env
         id: get_current_env
         run: |
-          if [[ "$GITHUB_REF" == 'refs/heads/develop' ]]; then
+          if [[ ${{ github.event.ref }} == 'refs/heads/develop' ]]; then
             echo "CURRENT_ENV=dev" >> "$GITHUB_ENV"
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
             echo "[INFO] PASSED pre-check. Using build automatically"
             exit 0
-          elif [[ "$GITHUB_REF" == 'refs/heads/main' ]]; then
+          elif [[ ${{ github.event.ref }} == 'refs/heads/main' ]]; then
             echo "CURRENT_ENV=stg" >> "$GITHUB_ENV"
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
             echo "[INFO] PASSED pre-check. Using build automatically"
