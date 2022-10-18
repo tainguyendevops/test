@@ -20,29 +20,33 @@ jobs:
 
       - name: Pre-check step and set env
         id: get_current_env
-        run: |
-          if [[ "$GITHUB_REF" == 'refs/heads/develop' ]]; then
-            echo "CURRENT_ENV=dev" >> "$GITHUB_ENV"
-            echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
-            echo "[INFO] PASSED pre-check. Using build automatically"
-            exit 0
-          elif [[ "$GITHUB_REF" == 'refs/heads/main' ]]; then
-            echo "CURRENT_ENV=stg" >> "$GITHUB_ENV"
-            echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
-            echo "[INFO] PASSED pre-check. Using build automatically"
-            exit 0
-          elif [[ "${GITHUB_REF#refs/tags/}" =~ "^v(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$" ]] ; then
-            "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
-            echo "VERSION $VERSION"
-            echo "CURRENT_ENV=prod" >> "$GITHUB_ENV"
-            echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
-            echo "[INFO] PASSED pre-check. Using build automatically"
-            exit 0
-          else
-            echo "[ERR] You are not allowed to run pipeline"
-            echo "[ERR] Your action has been reported to your admin"
-            exit 1
-          fi
+        run: echo "${GITHUB_REF#refs/tags/}, test ${GITHUB_REF}"
+
+      # - name: Pre-check step and set env
+      #   id: get_current_env
+      #   run: |
+      #     if [[ "$GITHUB_REF" == 'refs/heads/develop' ]]; then
+      #       echo "CURRENT_ENV=dev" >> "$GITHUB_ENV"
+      #       echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+      #       echo "[INFO] PASSED pre-check. Using build automatically"
+      #       exit 0
+      #     elif [[ "$GITHUB_REF" == 'refs/heads/main' ]]; then
+      #       echo "CURRENT_ENV=stg" >> "$GITHUB_ENV"
+      #       echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+      #       echo "[INFO] PASSED pre-check. Using build automatically"
+      #       exit 0
+      #     elif [[ "${GITHUB_REF#refs/tags/}" =~ "^v(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$" ]] ; then
+      #       "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
+      #       echo "VERSION $VERSION"
+      #       echo "CURRENT_ENV=prod" >> "$GITHUB_ENV"
+      #       echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+      #       echo "[INFO] PASSED pre-check. Using build automatically"
+      #       exit 0
+      #     else
+      #       echo "[ERR] You are not allowed to run pipeline"
+      #       echo "[ERR] Your action has been reported to your admin"
+      #       exit 1
+      #     fi
 
       - name: Get Tag Name
         id: tag_name
