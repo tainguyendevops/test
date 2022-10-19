@@ -117,7 +117,7 @@ jobs:
       - name: Pre-check step and set env prod
         id: get_current_env_prod
         run: |
-          if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+* ]]; then
             echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
             echo "CURRENT_ENV=prod" >> "$GITHUB_ENV"
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
