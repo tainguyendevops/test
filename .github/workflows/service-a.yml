@@ -73,7 +73,6 @@ jobs:
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
             echo "[INFO] PASSED pre-check. Using build automatically"
             exit 0
-          else 
           fi
 
       - name: Get Tag Name
