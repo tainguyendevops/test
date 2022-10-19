@@ -75,7 +75,7 @@ jobs:
           fi
 
       - name: Get Tag Name
-        run: echo "VERSION ${VERSION}"
+        run: echo "VERSION ${{ env.VERSION }} - $GITHUB_REF_NAME"
 
 
   deploy:
@@ -126,7 +126,7 @@ jobs:
           fi
 
       - name: Get Tag Name
-        run: echo "VERSION ${VERSION}"
+        run: echo "VERSION ${{ env.VERSION }} - $GITHUB_REF_NAME"
 
 # I use ${{ github.ref_name }} or $GITHUB_REF_NAME or ${{env.GITHUB_REF_NAME}}
       # - name: Pre-check step and set env
