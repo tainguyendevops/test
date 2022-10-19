@@ -1,0 +1,170 @@
+name: Build production container
+
+on:
+#  release:
+#    types:
+#      - created
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+*"
+    branches:
+      - main
+      - refs/tags/*
+  workflow_dispatch:
+    # tags:
+    #   - "v[0-9]+.[0-9]+.[0-9]+"
+    # branches:
+    #   - main
+    #   - refs/tags/*
+
+env:
+  NAME_SERVICE: service_a
+  IMAGE_TAG_LATEST: latest
+  DOCKER_BUILDKIT: 1
+
+concurrency:
+  group: ${{ github.ref }}-${{ NAME_SERVICE }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Pre-check step and set env
+        run: echo "${GITHUB_REF#refs/tags/}, test ${GITHUB_REF}"
+
+      - name: Pre-check step and set env dev
+        id: get_current_env_dev
+        if: ${{ github.event.ref == 'refs/heads/develop' }}
+        run: |
+          if [[ ${{ github.event.ref }} == 'refs/heads/develop' ]]; then
+            echo "CURRENT_ENV=dev" >> "$GITHUB_ENV"
+            echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+            echo "[INFO] PASSED pre-check. Using build automatically"
+            echo "[INFO] PASSED pre-check. Using build automatically"
+            exit 0
+          fi
+
+      - name: Pre-check step and set env stg
+        id: get_current_env_stg
+        if: ${{ github.event.ref == 'refs/heads/main' }}
+        run: |
+          if [[ ${{ github.event.ref }} == 'refs/heads/main' ]]; then
+            echo "CURRENT_ENV=stg" >> "$GITHUB_ENV"
+            echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+            echo "[INFO] PASSED pre-check. Using build automatically"
+            echo "[INFO] PASSED pre-check. Using build automatically"
+            exit 0
+          fi
+
+      - name: Pre-check step and set env prod
+        id: get_current_env_prod
+        run: |
+          if [[ ${{ github.event.ref }} == ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$ ]]; then
+            "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
+            echo "VERSION $VERSION"
+            echo "CURRENT_ENV=prod" >> "$GITHUB_ENV"
+            echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+            echo "[INFO] PASSED pre-check. Using build automatically"
+            exit 0
+          fi
+
+      - name: Get Tag Name
+        id: tag_name
+        run: |
+          echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+
+      - name: Build the Docker image
+        run: |
+          echo "$VERSION"
+        shell: bash
+        env:
+          VERSION: ${{ steps.tag_name.outputs.SOURCE_TAG }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Pre-check step and set env
+        run: echo "${GITHUB_REF#refs/tags/}, test ${GITHUB_REF}"
+
+      - name: Pre-check step and set env dev
+        id: get_current_env_dev
+        if: ${{ github.event.ref == 'refs/heads/develop' }}
+        run: |
+          if [[ ${{ github.event.ref }} == 'refs/heads/develop' ]]; then
+            echo "CURRENT_ENV=dev" >> "$GITHUB_ENV"
+            echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+            echo "[INFO] PASSED pre-check. Using build automatically"
+            echo "[INFO] PASSED pre-check. Using build automatically"
+            exit 0
+          fi
+
+      - name: Pre-check step and set env stg
+        id: get_current_env_stg
+        if: ${{ github.event.ref == 'refs/heads/main' }}
+        run: |
+          if [[ ${{ github.event.ref }} == 'refs/heads/main' ]]; then
+            echo "CURRENT_ENV=stg" >> "$GITHUB_ENV"
+            echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+            echo "[INFO] PASSED pre-check. Using build automatically"
+            echo "[INFO] PASSED pre-check. Using build automatically"
+            exit 0
+          fi
+
+      - name: Pre-check step and set env prod
+        id: get_current_env_prod
+        run: |
+          if [[ ${{ github.event.ref }} == ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$ ]]; then
+            "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
+            echo "VERSION $VERSION"
+            echo "CURRENT_ENV=prod" >> "$GITHUB_ENV"
+            echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+            echo "[INFO] PASSED pre-check. Using build automatically"
+            exit 0
+          fi
+
+      - name: Get Tag Name
+        id: tag_name
+        run: |
+          echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+
+      - name: Build the Docker image
+        run: |
+          echo "$VERSION"
+        shell: bash
+        env:
+          VERSION: ${{ steps.tag_name.outputs.SOURCE_TAG }}
+
+# I use ${{ github.ref_name }} or $GITHUB_REF_NAME or ${{env.GITHUB_REF_NAME}}
+      # - name: Pre-check step and set env
+      #   id: get_current_env
+      #   run: |
+      #     if [[ ${{ github.event.ref }} == 'refs/heads/develop' ]]; then
+      #       echo "CURRENT_ENV=dev" >> "$GITHUB_ENV"
+      #       echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+      #       echo "[INFO] PASSED pre-check. Using build automatically"
+      #       exit 0
+      #     elif [[ ${{ github.event.ref }} == 'refs/heads/main' ]]; then
+      #       echo "CURRENT_ENV=stg" >> "$GITHUB_ENV"
+      #       echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+      #       echo "[INFO] PASSED pre-check. Using build automatically"
+      #       exit 0
+      #     elif [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$ ]] ; then
+      #       "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
+      #       echo "VERSION $VERSION"
+      #       echo "CURRENT_ENV=prod" >> "$GITHUB_ENV"
+      #       echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
+      #       echo "[INFO] PASSED pre-check. Using build automatically"
+      #       exit 0
+      #     else
+      #       echo "[ERR] You are not allowed to run pipeline"
+      #       echo "[ERR] Your action has been reported to your admin"
+      #       exit 1
+      #     fi
+      #   shell: bash
