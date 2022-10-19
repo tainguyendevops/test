@@ -75,7 +75,7 @@ jobs:
           fi
 
       - name: Get Tag Name
-        run: echo "VERSION $VERSION"
+        run: echo "VERSION ${VERSION}"
 
 
   deploy:
@@ -119,7 +119,6 @@ jobs:
         run: |
           if [[ ${{ github.event.ref }} == ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$ ]]; then
             echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
-            echo "VERSION $VERSION"
             echo "CURRENT_ENV=prod" >> "$GITHUB_ENV"
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
             echo "[INFO] PASSED pre-check. Using build automatically"
@@ -127,7 +126,7 @@ jobs:
           fi
 
       - name: Get Tag Name
-        run: echo "VERSION $VERSION"
+        run: echo "VERSION ${VERSION}"
 
 # I use ${{ github.ref_name }} or $GITHUB_REF_NAME or ${{env.GITHUB_REF_NAME}}
       # - name: Pre-check step and set env
