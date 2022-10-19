@@ -65,7 +65,7 @@ jobs:
       - name: Pre-check step and set env prod
         id: get_current_env_prod
         run: |
-          if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$ ]]; then
+          if [[ ${{ github.event.ref }} == ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$ ]]; then
             "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
             echo "VERSION $VERSION"
             echo "CURRENT_ENV=prod" >> "$GITHUB_ENV"
@@ -77,7 +77,7 @@ jobs:
             echo "[ERR] Your action has been reported to your admin"
             exit 1
           fi
-
+# I use ${{ github.ref_name }} or $GITHUB_REF_NAME or ${{env.GITHUB_REF_NAME}}
       # - name: Pre-check step and set env
       #   id: get_current_env
       #   run: |
@@ -116,3 +116,4 @@ jobs:
         shell: bash
         env:
           VERSION: ${{ steps.tag_name.outputs.SOURCE_TAG }}
+
