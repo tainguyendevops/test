@@ -23,7 +23,7 @@ env:
   DOCKER_BUILDKIT: 1
 
 concurrency:
-  group: ${{ github.ref }}-${{ NAME_SERVICE }}
+  group: ${{ github.ref }}-${{ env.NAME_SERVICE }}
 
 jobs:
   build:
