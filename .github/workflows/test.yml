@@ -57,6 +57,7 @@ jobs:
             echo "[INFO] PASSED pre-check. Using build automatically"
             echo "[INFO] PASSED pre-check. Using build automatically"
             exit 0
+          fi
 
       - name: Pre-check step and set env prod
         id: get_current_env_prod
@@ -68,6 +69,7 @@ jobs:
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
             echo "[INFO] PASSED pre-check. Using build automatically"
             exit 0
+          fi
 # I use ${{ github.ref_name }} or $GITHUB_REF_NAME or ${{env.GITHUB_REF_NAME}}
       # - name: Pre-check step and set env
       #   id: get_current_env
