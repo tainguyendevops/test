@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   build-dev:
-      if: startsWith(github.ref, 'refs/heads/develop')
+    if: startsWith(github.ref, 'refs/heads/develop')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
