@@ -1,16 +1,16 @@
 name: Build production container
 
 on:
-#  release:
-#    types:
-#      - created
+  release:
+   types:
+     - created
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+*"
     branches:
-      - main
       - refs/tags/*
       - release/*
+      - develop
   workflow_dispatch:
 
 env:
