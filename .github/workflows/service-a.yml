@@ -108,7 +108,7 @@ jobs:
         run: echo "VERSION ${{ env.VERSION }} - $GITHUB_REF_NAME"
 
   deploy-stg:
-    if: startsWith(github.ref, 'refs/heads/release/*')
+    if: startsWith(github.ref, 'refs/heads/release/')
     runs-on: ubuntu-latest
     needs: build-stg
     steps:
@@ -120,9 +120,9 @@ jobs:
 
       - name: Pre-check step and set env stg
         id: get_current_env_stg
-        if: ${{ github.event.ref == 'refs/heads/release/*' }}
+        if: ${{ github.event.ref == 'refs/heads/release/' }}
         run: |
-          if [[ ${{ github.event.ref }} == 'refs/heads/release/*' ]]; then
+          if [[ ${{ github.event.ref }} == 'refs/heads/release/' ]]; then
             echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
             echo "CURRENT_ENV=stg" >> "$GITHUB_ENV"
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
