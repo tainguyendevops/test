@@ -140,14 +140,14 @@ jobs:
 
 
   build-prod:
-    if: startsWith(github.ref, 'refs/tags/v')
+    # if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Pre-check step and set env
-        run: echo "${GITHUB_REF#refs/tags/}, test ${GITHUB_REF}"
+        run: echo "${GITHUB_REF#refs/tags/}, test ${GITHUB_REF}, github.event.ref ${{ github.event.ref }}"
         
       - name: Pre-check step and set env prod
         id: get_current_env_prod
