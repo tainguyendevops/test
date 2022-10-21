@@ -18,7 +18,7 @@ on:
       - refs/tags/*
       - release/*
       - develop
-      
+
 env:
   NAME_SERVICE: service_a
   IMAGE_TAG_LATEST: latest
@@ -147,7 +147,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Pre-check step and set env
-        run: echo "${GITHUB_REF#refs/tags/}, test ${GITHUB_REF}, github.event.ref ${{ github.event.ref }}"
+        run: echo "${GITHUB_REF#refs/tags/}, test ${GITHUB_REF}, github.event.ref ${{ github.event.ref }} ${{ github.ref }}"
         
       - name: Pre-check step and set env prod
         id: get_current_env_prod
