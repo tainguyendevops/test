@@ -149,8 +149,13 @@ jobs:
       - name: Get Target Name Branch
         run: echo "Get Target Name Branch ${{ github.event.release.target_commitish }}"
 
+
+
+
+
   build-prod:
-    if: startsWith(github.ref, 'refs/tags/v')
+    #if: startsWith(github.ref, 'refs/tags/v')
+    if: github.event.release.target_commitish == 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
