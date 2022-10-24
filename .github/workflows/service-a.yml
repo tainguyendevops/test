@@ -158,8 +158,7 @@ jobs:
         
       - name: Pre-check step and set env prod
         id: get_current_env_prod
-        if: ${{ github.ref == 'refs/tags/v' && github.event.release.target_commitish == 'main' }}
-        #if: (github.ref == 'refs/tags/v' && github.event.release.target_commitish == 'main')
+        if: startsWith(github.release.target_commitish, 'main')
         run: |
           if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+.*$ ]]; then
             echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
