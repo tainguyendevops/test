@@ -180,6 +180,9 @@ jobs:
       - name: Do something
         run: echo "Master release ${{ github.event.release.name }}"
 
+      - name: Do something
+        run: echo "Master release ${{ github.event.release }}"
+
   deploy-prod:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
@@ -210,3 +213,5 @@ jobs:
         run: echo "Get Target Name Branch ${{ github.event.release.target_commitish }}"
       - name: Do something
         run: echo "Master release ${{ github.event.release.name }}"
+      - name: Do something
+        run: echo "Master release ${{ github.event.release }}"
