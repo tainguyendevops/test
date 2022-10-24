@@ -93,7 +93,7 @@ jobs:
         run: echo "Get Target Name Branch ${{ github.event.release.target_commitish }}"
 
   build-stg:
-    if: startsWith(github.ref, 'refs/heads/release/') && startsWith(github.ref, 'refs/heads/hotfix/')
+    if: startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/heads/hotfix/')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -101,9 +101,9 @@ jobs:
 
       - name: Pre-check step and set env stg
         id: get_current_env_stg
-        if: startsWith(github.ref, 'refs/heads/release/') && startsWith(github.ref, 'refs/heads/hotfix/')
+        if: startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/heads/hotfix/')
         run: |
-          if [[ ${{ github.event.ref }} =~ ^refs/heads/release/[0-9]+$ ]]; then
+          if [[ ${{ github.event.ref }} =~ ^refs/heads/release/[0-9]+$ ]] || [[ ${{ github.event.ref }} =~ ^refs/heads/hotfix/v[0-9]+\.[0-9]+\.[0-9]+.*$ ]]; then
             echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
             echo "CURRENT_ENV=stg" >> "$GITHUB_ENV"
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
