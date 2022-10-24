@@ -10,12 +10,14 @@ on:
     branches:
       - refs/tags/*
       - release/*
+      - hotfix/*
       - develop
   workflow_dispatch:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+*"
     branches:
       - refs/tags/*
+      - hotfix/*
       - release/*
       - develop
 
