@@ -181,7 +181,7 @@ jobs:
       - name: Get Target Name Branch
         run: echo "Get Target Name Branch ${{ github.event.release.target_commitish }}, ${{ github.head_ref }}, $GITHUB_HEAD_REF, ${GITHUB_HEAD_REF}, ${{ env.GITHUB_HEAD_REF }}"
       - name: Get Target Name Branch 02
-        run: echo "Get Target Name Branch ${{ github.event.release }}"
+        run: echo "Get Target Name Branch ${{ github.event.release }}, ${{ github.release }}, ${{ github.head_ref }}, ${{ github.event.head_ref }}"
       - name: Do something
         run: echo "Master release ${{ github.event.release.name }}"
       - name: Do something Master release
