@@ -179,7 +179,7 @@ jobs:
             exit 1
           fi
       - name: Get Target Name Branch
-        run: echo "Get Target Name Branch ${{ github.event.release.target_commitish }}, ${{ github.head_ref }}"
+        run: echo "Get Target Name Branch ${{ github.event.release.target_commitish }}, ${{ github.head_ref }, $GITHUB_HEAD_REF, ${GITHUB_HEAD_REF}, ${{ env.GITHUB_HEAD_REF }}"
       - name: Get Target Name Branch 02
         run: echo "Get Target Name Branch ${{ github.event.release }}"
       - name: Do something
