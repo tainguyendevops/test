@@ -156,7 +156,7 @@ jobs:
 
 
   build-prod:
-    if: startsWith(github.ref, 'refs/tags/v') || startsWith(github.base_ref, 'refs/heads/hotfix/v')
+    if: startsWith(github.ref, 'refs/tags/v') && startsWith(github.base_ref, 'refs/heads/hotfix/v') || startsWith(github.base_ref, 'refs/heads/release/v')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
