@@ -175,10 +175,6 @@ jobs:
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
             echo "[INFO] PASSED pre-check. Using build automatically branch release"
             exit 0
-          else
-            echo "[ERR] You are not allowed to run pipeline"
-            echo "[ERR] Your action has been reported to your admin"
-            exit 1
           fi
 
       - name: Pre-check step and set env prod release
@@ -191,10 +187,6 @@ jobs:
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
             echo "[INFO] PASSED pre-check. Using build automatically branch release"
             exit 0
-          else
-            echo "[ERR] You are not allowed to run pipeline"
-            echo "[ERR] Your action has been reported to your admin"
-            exit 1
           fi
 
       - name: Get Target Name Branch 02
