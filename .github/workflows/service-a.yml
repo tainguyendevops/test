@@ -162,6 +162,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         
+      - name: Get Target Name Branch 01
+        run: echo "Get Target Name Branch ${GITHUB_BASE_REF}, $GITHUB_BASE_REF ${{ env.GITHUB_BASE_REF }}"
+
       - name: Pre-check step and set env prod
         id: get_current_env_prod
         #if: ${{ startsWith(github.ref, 'refs/tags/v') && startsWith(github.base_ref, 'refs/heads/hotfix/v') }}
