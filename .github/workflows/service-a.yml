@@ -165,9 +165,8 @@ jobs:
       - name: Get Target Name Branch 01
         run: echo "Get Target Name Branch ${GITHUB_BASE_REF}, $GITHUB_BASE_REF ${{ env.GITHUB_BASE_REF }}, ${{ github.event.pull_request.base.ref }}, ${{ github.pull_request.base.ref }}"
 
-      - name: Pre-check step and set env prod
-        if: startsWith(github.base_ref, 'refs/heads/hotfix/v')
-        #if: ${{ github.base_ref == 'refs/heads/hotfix' }}
+      - name: Pre-check step and set env prod hotfix
+        if: ${{ startsWith(github.base_ref, 'refs/heads/hotfix/v') }} || startsWith(github.base_ref, 'refs/heads/hotfix/v')
         id: get_current_env_prod
         run: |
           if [[ ${{ github.event.base_ref }} =~ ^refs/heads/release/v[0-9]+\.[0-9]+\.[0-9]+.*$ ]]; then
@@ -176,11 +175,21 @@ jobs:
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
             echo "[INFO] PASSED pre-check. Using build automatically branch release"
             exit 0
-          elif [[ ${{ github.event.base_ref }} =~ ^refs/heads/hotfix/v[0-9]+\.[0-9]+\.[0-9]+.*$ ]]; then
+          else
+            echo "[ERR] You are not allowed to run pipeline"
+            echo "[ERR] Your action has been reported to your admin"
+            exit 1
+          fi
+
+      - name: Pre-check step and set env prod release
+        if: ${{ startsWith(github.base_ref, 'refs/heads/release/v') }} || startsWith(github.base_ref, 'refs/heads/release/v')
+        id: get_current_env_prod
+        run: |
+          if [[ ${{ github.event.base_ref }} =~ ^refs/heads/release/v[0-9]+\.[0-9]+\.[0-9]+.*$ ]]; then
             echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
-            echo "CURRENT_ENV=prod" >> "$GITHUB_ENV"
+            echo "CURRENT_ENV=stg" >> "$GITHUB_ENV"
             echo "PROJECT_FOLDER=${GITHUB_REPOSITORY#onpointvn/}" >> "$GITHUB_ENV"
-            echo "[INFO] PASSED pre-check. Using build automatically branch hotfix"
+            echo "[INFO] PASSED pre-check. Using build automatically branch release"
             exit 0
           else
             echo "[ERR] You are not allowed to run pipeline"
