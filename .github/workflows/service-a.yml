@@ -163,7 +163,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Get Target Name Branch 01
-        run: echo "Get Target Name Branch ${GITHUB_BASE_REF}, $GITHUB_BASE_REF ${{ env.GITHUB_BASE_REF }}"
+        run: echo "Get Target Name Branch ${GITHUB_BASE_REF}, $GITHUB_BASE_REF ${{ env.GITHUB_BASE_REF }}, ${{ github.event.pull_request.base.ref }}, ${{ github.pull_request.base.ref }}"
 
       - name: Pre-check step and set env prod
         id: get_current_env_prod
