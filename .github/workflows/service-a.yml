@@ -167,7 +167,7 @@ jobs:
 
       - name: Pre-check step and set env prod
         id: get_current_env_prod
-        if: ${{ startsWith(github.ref, 'refs/heads/hotfix/') }}
+        if: ${{ startsWith(github.base_ref, 'refs/heads/hotfix/') }}
         #if: startsWith(github.base_ref, 'refs/heads/hotfix/v') || startsWith(github.base_ref, 'refs/heads/release/v')
         #if: ${{ startsWith(github.ref, 'refs/heads/stable') && !startsWith(github.base_ref, 'hotfix/v') }}
         run: |
