@@ -166,7 +166,8 @@ jobs:
         run: echo "Get Target Name Branch ${GITHUB_BASE_REF}, $GITHUB_BASE_REF ${{ env.GITHUB_BASE_REF }}, ${{ github.event.pull_request.base.ref }}, ${{ github.pull_request.base.ref }}"
 
       - name: Pre-check step and set env prod
-        if: ${{ startsWith(github.base_ref, 'refs/heads/hotfix/v') }}
+        #if: ${{ startsWith(github.base_ref, 'refs/heads/hotfix/v') }}
+        if: ${{ github.base_ref == 'refs/heads/hotfix' }}
         id: get_current_env_prod
         run: |
           if [[ ${{ github.event.base_ref }} =~ ^refs/heads/release/v[0-9]+\.[0-9]+\.[0-9]+.*$ ]]; then
