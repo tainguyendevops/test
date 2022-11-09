@@ -13,6 +13,20 @@ on:
       - hotfix/*
       - develop
   workflow_dispatch:
+    inputs:
+      name:
+        type: choice
+        description: Who to greet
+        options: 
+        - monalisa
+        - cschleiden
+      message:
+        required: true
+      use-emoji:
+        type: boolean
+        description: Include  emojis
+      environment:
+        type: environment
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+*"
     branches:
