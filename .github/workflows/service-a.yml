@@ -39,6 +39,7 @@ env:
   NAME_SERVICE: service_a
   IMAGE_TAG_LATEST: latest
   DOCKER_BUILDKIT: 1
+  DEPLOYMENTS: true
 
 concurrency:
   group: ${{ github.ref }}-${{ github.run_id }}
@@ -240,3 +241,7 @@ jobs:
         run: echo "Master release ${{ github.event.release }}, 1 ${{ github.event.payload.release.name }}, 2 ${{ github.event.payload.release }}, 3 ${{ github.event.payload }}, ${{ github.head_ref }}"
       - name: Do something Master release 01
         run: echo "Name ${{ github.event.release.name }} Description ${{ github.event.release.body }}, ${{ github.head_ref }}"
+
+      - name: Test tag
+        if: ${{ (github.event.ref == 'refs/tags/v') && (env.DEPLOYMENTS == 'true') }}
+        run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}"
