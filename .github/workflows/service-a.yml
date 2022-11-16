@@ -255,9 +255,9 @@ jobs:
         run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}"
 
       - name: ingress to rke
-        if: ${{ (github.event.ref == 'refs/tags/v') && (env.DEPLOYMENTS == 'true') }}
+        if: ${{ (github.ref == 'refs/tags/v') && (env.DEPLOYMENTS == 'true') }}
         run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}"
 
       - name: ingress to rke
-        if: ${{ (github.event.ref == 'refs/tags/') && (env.DEPLOYMENTS == 'true') }}
+        if: ${{ (github.ref == 'refs/tags/') && (env.DEPLOYMENTS == 'true') }}
         run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}"
