@@ -245,3 +245,6 @@ jobs:
       - name: Test tag
         if: ${{ (github.event.ref == 'refs/tags/v') && (env.DEPLOYMENTS == 'true') }}
         run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}"
+      - name: Test tag
+        if: ${{ (github.event.ref =~ '^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+.*$') && (env.DEPLOYMENTS == 'true') }}
+        run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}"
