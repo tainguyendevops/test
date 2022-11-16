@@ -171,8 +171,7 @@ jobs:
 
 
   build-prod:
-    #if: startsWith(github.ref, 'refs/tags/v')
-    if: ${{ (github.event.ref == 'refs/tags/v') }}
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -206,6 +205,7 @@ jobs:
           fi
 
       - name: Get Target Name Branch 02
+        if: ${{ env.DEPLOYMENTS == 'true' }} && startsWith(github.base_ref, 'refs/heads/main')
         run: echo "Get Target Name Branch ${{ github.event.release }}, ${{ github.release }}, ${{ github.head_ref }}, ${{ github.event.head_ref }} , ${{ github.base_ref }}, ${{ github.event.base_ref }}, ${{ github.event.ref }}"
       - name: Test tag 01
         if: startsWith(github.ref, 'refs/tags/v') && ${{ env.DEPLOYMENTS == 'true' }} && startsWith(github.base_ref, 'refs/heads/main')
@@ -247,7 +247,7 @@ jobs:
         run: echo "Name ${{ github.event.release.name }} Description ${{ github.event.release.body }}, ${{ github.head_ref }}"
 
       - name: Test tag
-        if: ${{ (github.event.ref == 'refs/tags/v') && (env.DEPLOYMENTS == 'true') }}
+        if: ${{ env.DEPLOYMENTS == 'true' }} && startsWith(github.base_ref, 'refs/heads/main')
         run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}"
       - name: Test tag 01
         if: startsWith(github.ref, 'refs/tags/v') && ${{ env.DEPLOYMENTS == 'true' }} && startsWith(github.base_ref, 'refs/heads/main')
