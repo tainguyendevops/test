@@ -248,7 +248,7 @@ jobs:
 
 
       - name: Test tag 01
-        if: ${{ env.DEPLOYMENTS == 'true' }} && startsWith(github.ref, 'refs/tags/v')
+        if: ${{ (env.DEPLOYMENTS == 'true') }} && startsWith(github.ref, 'refs/tags/v')
         run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}, ${{ github.event.master_branch }}"
       - name: Test tag 01
         if: ${{ env.DEPLOYMENTS == 'true' }} && ${{ env.DEPLOYMENTS == 'true' }}
