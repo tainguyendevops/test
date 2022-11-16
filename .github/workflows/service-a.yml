@@ -39,7 +39,7 @@ env:
   NAME_SERVICE: service_a
   IMAGE_TAG_LATEST: latest
   DOCKER_BUILDKIT: 1
-  DEPLOYMENTS: true
+  DEPLOYMENTS: false
 
 concurrency:
   group: ${{ github.ref }}-${{ github.run_id }}
