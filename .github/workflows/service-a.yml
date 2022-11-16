@@ -244,20 +244,23 @@ jobs:
       - name: Do something Master release
         run: echo "Master release ${{ github.event.release }}, 1 ${{ github.event.payload.release.name }}, 2 ${{ github.event.payload.release }}, 3 ${{ github.event.payload }}, ${{ github.head_ref }}"
       - name: Do something Master release 01
-        run: echo "Name ${{ github.event.release.name }} Description ${{ github.event.release.body }}, ${{ github.head_ref }}"
+        run: echo "Name ${{ github.event.release.name }} Description ${{ github.event.release.body }}, ${{ github.head_ref }}, ${{ github.event.ref }"
 
 
       - name: Test tag 01
         if: ${{ (env.DEPLOYMENTS == 'true') }} && startsWith(github.ref, 'refs/tags/v')
-        run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}, ${{ github.event.master_branch }}"
+        run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}, ${{ github.event.master_branch }}, ${{ github.event.ref }"
       - name: Test tag 01
         if: ${{ (github.event.ref == 'refs/tags/v1.2.36') && (env.DEPLOYMENTS_INGRESS == 'true') }}
-        run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}, ${{ github.event.master_branch }}"
+        run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}, ${{ github.event.master_branch }}, ${{ github.event.ref }"
 
       - name: ingress to rke
         if: ${{ (github.ref == 'refs/tags/v') && (env.DEPLOYMENTS == 'true') }}
-        run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}, ${{ github.event.master_branch }}"
+        run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}, ${{ github.event.master_branch }}, ${{ github.event.ref }}"
 
       - name: ingress to rke
         if: ${{ (env.DEPLOYMENTS == 'true') }} && (github.ref == 'refs/tags/v')
         run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}, ${{ github.event.master_branch }}"
+      - name: Apply Ingress to EKS
+        if: ${{ (github.event.ref == 'refs/tags/v') && (env.DEPLOYMENTS == 'true') }}
+        uses: actions-hub/kubectl@master
