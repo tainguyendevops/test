@@ -254,7 +254,10 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v') && ${{ env.DEPLOYMENTS == 'true' }}
         run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}"
 
+      - name: ingress to rke
+        if: ${{ (github.event.ref == 'refs/tags/v') && (env.DEPLOYMENTS == 'true') }}
+        run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}"
 
       - name: ingress to rke
-        if: ${{ (github.event.ref =~ 'refs/tags/v') && (env.DEPLOYMENTS == 'true') }}
+        if: ${{ (github.event.ref == 'refs/tags/v') && (env.DEPLOYMENTS == 'true') }}
         run: echo "Master release ${{ github.event.release.name }}, ${{ github.head_ref }}"
