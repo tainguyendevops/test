@@ -172,7 +172,7 @@ jobs:
 
   build-prod:
     #if: startsWith(github.ref, 'refs/tags/v')
-    if: ${{ (github.event.ref == 'refs/tags/v') && (github.event.base_ref == 'refs/heads/main') }}
+    if: ${{ (github.event.ref == 'refs/tags/v') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
