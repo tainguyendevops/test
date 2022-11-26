@@ -1,7 +1,7 @@
-name: opollo_common
+name: scheduler-service
 on:
   schedule:
-    - cron: '* */3 * * *'
+    - cron: '*/1 * * * *'
   workflow_dispatch:
     inputs:
       hubAddressGroupObject:
