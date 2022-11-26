@@ -39,7 +39,6 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout develop
         uses: actions/checkout@v3
         with:
@@ -48,7 +47,7 @@ jobs:
         run: |
           GET_BRANCH_VERSION_RELEASE=$(git ls-remote --heads | awk '{print $2}' | egrep -o "refs/heads/release/v[0-9]+\.[0-9]+\.[0-9]+.?" | grep -Ev '-')
           echo "BRANCH_VERSION_RELEASE=${GET_BRANCH_VERSION_RELEASE#refs/heads/}" >> "$GITHUB_ENV"
-       - name: Checkout release
+      - name: Checkout release
         uses: actions/checkout@v3
         with:
           ref: ${{ env.BRANCH_VERSION_RELEASE }}
