@@ -12,6 +12,7 @@ on:
       - release/*
       - hotfix/*
       - develop
+      - main
   workflow_dispatch:
     inputs:
       name:
@@ -30,6 +31,7 @@ on:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+*"
     branches:
+      - main
       - refs/tags/*
       - hotfix/*
       - release/*
@@ -101,9 +103,21 @@ jobs:
             exit 1
           fi
 
+      - name: Build, tag and push image to Amazon ECR
+        timeout-minutes: 30
+        run: |
+          IMAGE_VERSION=$(echo ${{ github.sha }} | cut -c1-9)
+          ECR_REPOSITORY="${NAME_SERVICE}_${CURRENT_ENV}"
+          AWS_ECR_DOCKER_IMAGE="${AWS_K8S_CONTAINER_NAME}:${IMAGE_VERSION}"
+
+
       - name: Get Tag Name
         run: echo "VERSION ${{ env.VERSION }} - $GITHUB_REF_NAME"
+        
+      - name: Get Tag Name IMAGE_VERSION
+        run: echo "IMAGE_VERSION ${{ env.IMAGE_VERSION }} - $IMAGE_VERSION"
 
+      
       - name: Get Target Name Branch
         run: echo "Get Target Name Branch ${{ github.event.release.target_commitish }}"
 
